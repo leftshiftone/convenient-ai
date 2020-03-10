@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Union, Pattern
 
 import spacy
@@ -6,9 +6,8 @@ from spacy.language import Language
 from spacy.pipeline import EntityRuler
 from spacy.tokens import Doc
 
-from convenient.nlp.__common__ import Text
 from convenient.nlp.__common__.io import Json
-from convenient.nlp.spacy.typing import RulePattern
+from convenient.nlp.spacy.types import RulePattern
 
 
 @dataclass
@@ -16,8 +15,8 @@ class ConvenientSpacy:
     """
     Convenient class implementation for the spacy library.
     """
-    nlp: Language
-    pipeline_names: List[str] = List[str]()
+    nlp: Language = field(default_factory=Language)
+    pipeline_names: List[str] = field(default_factory=list)
 
     """
     Returns a ConvenientSpacy instance with a blank model
@@ -36,11 +35,9 @@ class ConvenientSpacy:
     """
     Pipes the given text through the spacy pipeline
     """
-    def pipe(self, texts: Union[List[Text], Text]) -> List[Doc]:
-        if isinstance(texts, Text):
+    def pipe(self, texts: Union[List[str], str]) -> List[Doc]:
+        if isinstance(texts, str):
             texts = [texts]
-
-        texts = (List[Text])(texts)
 
         return self.nlp.pipe(texts)
 
@@ -51,7 +48,7 @@ class ConvenientSpacy:
         if isinstance(patterns, Pattern):
             patterns = [patterns]
 
-        patterns = (List[RulePattern])(patterns)
+        patterns = (List[Pattern])(patterns)
 
         ruler = EntityRuler(self.nlp)
         [ruler.add_patterns(pattern.asdict) for pattern in patterns]
@@ -64,7 +61,7 @@ class ConvenientSpacy:
     """
     def add_component(self, component) -> 'ConvenientSpacy':
         Language.factories[component.name] = lambda nlp, **cfg: component
-        self.nlp.add_pipe(component, first=True)
+        self.nlp.add_pipe(component, before="ner")
 
         return self
 
