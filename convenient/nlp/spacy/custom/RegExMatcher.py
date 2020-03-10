@@ -13,16 +13,16 @@ class RegExConfig:
 
 
 class RegExMatcher(object):
-    name = "regex_matcher"
 
-    def __init__(self, config: RegExConfig):
+    def __init__(self, name: str, config: RegExConfig):
+        self.name = name
         self.config = config
 
     def __call__(self, document):
         iterator = re.finditer(self.config.pattern, document.text)
         spans = [match.span() for match in iterator]
 
-        if spans is []:
+        if len(spans) == 0:
             return document
 
         [self.add_new_matching_span(document, span) for span in spans]

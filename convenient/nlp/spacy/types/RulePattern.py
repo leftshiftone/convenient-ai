@@ -3,11 +3,11 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Pattern:
+class RulePattern:
     id: str
     label: str
     pattern: str
 
     @property
-    def asdict(self):
+    def as_dict(self):
         return dataclasses.asdict(self)
