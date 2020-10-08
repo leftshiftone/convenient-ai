@@ -1,4 +1,5 @@
 import unittest
+
 from convenient.nlp.spacy import ConvenientSpacy
 from convenient.nlp.spacy.custom import RegExMatcher, RegExConfig
 
@@ -32,3 +33,13 @@ class ConvenientSpacyTest(unittest.TestCase):
         ent = list(ents)[0]
         self.assertEqual(ent.label_, "NUM")
         self.assertEqual(ent.text, "100")
+
+    def test_preprocess_text(self):
+        nlp = ConvenientSpacy.from_model("de_core_news_sm")
+        text = nlp.preprocess_text("das ist ein        beispiel.")
+
+        self.assertEqual(text, "Das ist ein Beispiel")
+
+    def test_get_pos_count(self):
+        nlp = ConvenientSpacy.from_model("de_core_news_sm")
+        self.assertEqual(nlp.get_pos_count("das ist ein beispiel.", "VERB"), 0)
