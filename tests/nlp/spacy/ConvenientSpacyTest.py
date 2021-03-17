@@ -1,7 +1,7 @@
 import unittest
 
-from convenient.nlp.spacy import ConvenientSpacy
-from convenient.nlp.spacy.custom import RegExMatcher, RegExConfig
+from convenient_ai.nlp.spacy import ConvenientSpacy
+from convenient_ai.nlp.spacy.custom import RegExMatcher, RegExConfig
 
 
 class ConvenientSpacyTest(unittest.TestCase):

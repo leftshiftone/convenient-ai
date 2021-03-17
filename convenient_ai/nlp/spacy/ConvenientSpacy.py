@@ -6,8 +6,8 @@ from spacy.language import Language
 from spacy.pipeline import EntityRuler
 from spacy.tokens import Doc, Token
 
-from convenient.nlp.__common__.io import Json
-from convenient.nlp.spacy.types import RulePattern
+from convenient_ai.nlp.__common__.io import Json
+from convenient_ai.nlp.spacy.types import RulePattern
 
 
 @dataclass
